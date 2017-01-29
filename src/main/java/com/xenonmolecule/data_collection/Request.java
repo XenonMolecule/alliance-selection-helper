@@ -76,7 +76,7 @@ public class Request {
     // VexDB will sometimes only send a partially full
     // response, but by checking the size we can verify
     // that we are getting all of the data
-    private int getResponseLength() {
+    public int getResponseLength() {
         Request req = new Request(requestWithParams("nodata=true"));
         return getSize(req.getRawResponse());
     }
@@ -95,7 +95,7 @@ public class Request {
         int expectedResponseLength = getResponseLength();
         int responseLength = getSize(response);
         JsonArray results = getResults(response);
-        while (expectedResponseLength!=responseLength) {
+        while (expectedResponseLength != responseLength) {
             String req = new Request(requestWithParams("limit_start=" + responseLength)).getRawResponse();
             results.addAll(getResults(req));
             responseLength += getSize(req);
@@ -104,13 +104,17 @@ public class Request {
             JsonObject jObj = json.getAsJsonObject();
             // Update the result and size values
             jObj.remove("size");
-            jObj.addProperty("size",responseLength);
+            jObj.addProperty("size", responseLength);
             jObj.remove("result");
-            jObj.add("result",results);
+            jObj.add("result", results);
             // stringify the results again
             response = jObj.toString();
         }
         return response;
+    }
+
+    public JsonObject getFullResponseJSON() {
+        return new JsonParser().parse(getFullResponse()).getAsJsonObject();
     }
 
 }
