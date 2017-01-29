@@ -32,7 +32,7 @@ public class MatchesRequest extends Request{
         blueScore = match.getAsJsonPrimitive("bluescore").getAsInt();
         // Process the data
         String rRed1, rRed2, rBlue1, rBlue2, winner;
-            // Red (determine who is sitting)
+        // Red (determine who is sitting)
         if(redSit.equals(red1)) {
             rRed1 =  red2;
             rRed2 = red3;
@@ -44,16 +44,16 @@ public class MatchesRequest extends Request{
             rRed2 = red2;
         }
 
-            // Blue (determine who is sitting)
+        // Blue (determine who is sitting)
         if(blueSit.equals(blue1)) {
             rBlue1 =  blue2;
             rBlue2 = blue1;
         } else if(blueSit.equals(blue2)) {
-            rBlue1 = red1;
-            rBlue2 = red3;
+            rBlue1 = blue1;
+            rBlue2 = blue3;
         } else {
-            rBlue1 = red1;
-            rBlue2 = red2;
+            rBlue1 = blue1;
+            rBlue2 = blue2;
         }
 
             // Determine winner
