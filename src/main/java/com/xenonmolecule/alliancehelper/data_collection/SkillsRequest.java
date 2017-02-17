@@ -1,11 +1,8 @@
-package com.xenonmolecule.data_collection;
+package com.xenonmolecule.alliancehelper.data_collection;
 
 import com.google.gson.JsonObject;
-import com.xenonmolecule.data_formatting.SkillFormatter;
+import com.xenonmolecule.alliancehelper.data_formatting.SkillFormatter;
 
-/**
- * Created by MichaelRyan on 2/16/17.
- */
 public class SkillsRequest extends Request {
 
     public SkillsRequest(String sku, String team) {
@@ -20,7 +17,5 @@ public class SkillsRequest extends Request {
         SkillFormatter fmt = new SkillFormatter(getResults(getFullResponse()));
         return fmt.format().getAsJsonObject();
     }
-
-
 
 }

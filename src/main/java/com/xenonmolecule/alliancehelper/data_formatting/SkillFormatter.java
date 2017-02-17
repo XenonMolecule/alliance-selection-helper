@@ -1,12 +1,9 @@
-package com.xenonmolecule.data_formatting;
+package com.xenonmolecule.alliancehelper.data_formatting;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-/**
- * Created by MichaelRyan on 2/16/17.
- */
 public class SkillFormatter implements Formatter {
 
     JsonArray skills;

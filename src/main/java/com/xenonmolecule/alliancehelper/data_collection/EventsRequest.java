@@ -1,8 +1,7 @@
-package com.xenonmolecule.data_collection;
+package com.xenonmolecule.alliancehelper.data_collection;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 
 /**
  * Created by MichaelRyan on 1/28/17.

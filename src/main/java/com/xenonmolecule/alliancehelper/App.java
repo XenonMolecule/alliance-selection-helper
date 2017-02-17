@@ -1,8 +1,7 @@
-package com.xenonmolecule;
+package com.xenonmolecule.alliancehelper;
 
-import com.xenonmolecule.data_collection.*;
-import com.xenonmolecule.data_formatting.TeamsFormatter;
-import com.xenonmolecule.data_formatting.Extractor;
+import com.xenonmolecule.alliancehelper.data_collection.TeamsStatsRequest;
+import com.xenonmolecule.alliancehelper.data_formatting.Extractor;
 
 public class App 
 {

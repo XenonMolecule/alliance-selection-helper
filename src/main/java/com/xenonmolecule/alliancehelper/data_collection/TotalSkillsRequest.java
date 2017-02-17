@@ -1,8 +1,5 @@
-package com.xenonmolecule.data_collection;
+package com.xenonmolecule.alliancehelper.data_collection;
 
-/**
- * Created by MichaelRyan on 2/17/17.
- */
 public class TotalSkillsRequest extends Request {
 
     public TotalSkillsRequest(String sku) {

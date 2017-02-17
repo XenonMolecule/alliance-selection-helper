@@ -1,13 +1,10 @@
-package com.xenonmolecule.data_collection;
+package com.xenonmolecule.alliancehelper.data_collection;
 
 import com.google.gson.JsonObject;
 
-/**
- * Created by MichaelRyan on 1/31/17.
- */
 public class TeamRequest extends Request {
 
-    String sku;
+    private String sku;
 
     public TeamRequest(String team, String sku) {
         super("https://api.vexdb.io/v1/get_rankings?sku=" + sku + "&team=" + team);

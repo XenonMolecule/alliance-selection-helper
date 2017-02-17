@@ -1,11 +1,8 @@
-package com.xenonmolecule.data_collection;
+package com.xenonmolecule.alliancehelper.data_collection;
 
 import com.google.gson.JsonArray;
-import com.xenonmolecule.data_formatting.TeamsFormatter;
+import com.xenonmolecule.alliancehelper.data_formatting.TeamsFormatter;
 
-/**
- * Created by MichaelRyan on 2/11/17.
- */
 public class TeamsStatsRequest extends Request {
 
     public TeamsStatsRequest(String sku) {

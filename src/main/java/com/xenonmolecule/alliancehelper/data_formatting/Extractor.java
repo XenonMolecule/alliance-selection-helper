@@ -1,13 +1,10 @@
-package com.xenonmolecule.data_formatting;
+package com.xenonmolecule.alliancehelper.data_formatting;
 
 import com.google.gson.JsonObject;
 
-/**
- * Created by MichaelRyan on 2/11/17.
- */
 public class Extractor {
 
-    String extractionFactor;
+    private String extractionFactor;
 
     public Extractor(String extractionFactor) {
         this.extractionFactor = extractionFactor;

@@ -1,15 +1,12 @@
-package com.xenonmolecule.data_formatting;
+package com.xenonmolecule.alliancehelper.data_formatting;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
-/**
- * Created by MichaelRyan on 2/11/17.
- */
 public class TeamsFormatter implements Formatter {
 
-    JsonArray teams;
+    private JsonArray teams;
 
     public TeamsFormatter(JsonArray teams) {
         this.teams = teams;
