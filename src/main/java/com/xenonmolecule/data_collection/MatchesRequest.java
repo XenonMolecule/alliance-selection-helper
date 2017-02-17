@@ -1,6 +1,8 @@
 package com.xenonmolecule.data_collection;
 
 import com.google.gson.JsonObject;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 
 /**
  * Created by MichaelRyan on 1/28/17.
@@ -56,7 +58,7 @@ public class MatchesRequest extends Request{
             rBlue2 = blue2;
         }
 
-            // Determine winner
+        // Determine winner
         if(redScore < blueScore) {
             winner = "blue";
         } else if(blueScore < redScore) {
@@ -74,6 +76,38 @@ public class MatchesRequest extends Request{
         res.addProperty("winner",winner);
 
         return res;
+    }
+
+    public JsonObject getRawMatches(int round) {
+        Request roundReq = new Request(requestWithParams("round=" + round));
+        return roundReq.getFullResponseJSON();
+    }
+
+    public JsonArray getMatches(int round) {
+        JsonArray matches = getRawMatches(round).getAsJsonArray("result");
+        int index = 0;
+        for(JsonElement match : matches) {
+            matches.set(index, formatMatch(match.getAsJsonObject()));
+            index++;
+        }
+        return matches;
+    }
+
+    public JsonArray getPlayoffsMatches() {
+        JsonArray matches = getMatches(3);
+        matches.addAll(getMatches(4));
+        matches.addAll(getMatches(5));
+        return matches;
+    }
+
+    public JsonArray getQualificationsMatches() {
+        return getMatches(2);
+    }
+
+    public JsonArray getAllMatches() {
+        JsonArray matches = getQualificationsMatches();
+        matches.addAll(getPlayoffsMatches());
+        return matches;
     }
 
 }

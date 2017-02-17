@@ -7,18 +7,16 @@ import java.io.*;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonElement.*;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 public class Request {
 
-    private HttpsURLConnection conn;
+    private URL url;
 
     public Request(String url) {
         try {
-            URL siteURL = new URL(url);
-            this.conn = (HttpsURLConnection) siteURL.openConnection();
+            this.url = new URL(url);
         } catch(MalformedURLException e) {
             e.printStackTrace();
         } catch(IOException e) {
@@ -27,34 +25,33 @@ public class Request {
     }
 
     public String getRawResponse() {
-        if(conn!=null){
-            try {
-                BufferedReader br =
-                        new BufferedReader(
-                                new InputStreamReader(conn.getInputStream()));
+        try {
+            HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+            BufferedReader br =
+                    new BufferedReader(
+                            new InputStreamReader(conn.getInputStream()));
 
-                String input, output = "";
+            String input, output = "";
 
-                while ((input = br.readLine()) != null)
-                    output += input;
+            while ((input = br.readLine()) != null)
+                output += input;
 
-                br.close();
-                return output;
+            br.close();
+            conn.getInputStream().close();
+            return output;
 
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return null;
     }
 
     public String getUrl() {
-        return conn.getURL().toString();
+        return url.toString();
     }
 
 
-    private String requestWithParams(String ... params) {
-        URL url = conn.getURL();
+    public String requestWithParams(String ... params) {
         String request = getUrl();
         if(params.length > 0) {
             request += ((url.getQuery() != null) ? "&" : "?") + params[0];
