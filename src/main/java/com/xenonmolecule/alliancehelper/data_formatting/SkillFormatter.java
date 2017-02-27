@@ -32,7 +32,7 @@ public class SkillFormatter implements Formatter {
                     break;
                 default:
                     System.out.println("VEXDB Has added a new type of skills challenge, that is not yet handled...\n" +
-                            "Please edit SkillsRequest.java to handle this new challenge.");
+                            "Please edit SkillFormatter.java to handle this new challenge.");
             }
         }
 
