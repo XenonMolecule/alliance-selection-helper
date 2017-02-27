@@ -9,13 +9,16 @@ public class TeamPanel extends JPanel {
     private Color disabledColor = Color.DARK_GRAY;
     private Color enabledColor;
     private boolean enabled = false;
+    private boolean selected = false;
+    private JLabel label;
     private String teamName;
 
     public TeamPanel(String teamName) {
         this.teamName = teamName;
         if (teamName != null) {
-            add(new JLabel("<html><font color='white'>" + teamName + "</font></html>\""));
-            setBackground(disabledColor);
+            label = new JLabel();
+            add(label);
+            setEnabled(false);
             addMouseListener(new ToggleMouseListener());
         }
     }
@@ -23,13 +26,19 @@ public class TeamPanel extends JPanel {
     public TeamPanel(String teamName, Color enabledColor) {
         this(teamName);
         this.enabledColor = enabledColor;
-        setBackground(enabledColor);
-        enabled = true;
+        setEnabled(true);
     }
 
     public void paintComponent(Graphics g) {
-        if (teamName != null)
+        if (teamName != null) {
             super.paintComponent(g);
+            if (selected) {
+                Graphics2D g2 = (Graphics2D) g;
+                g2.setStroke(new BasicStroke(5));
+                g2.setColor(Color.YELLOW);
+                g2.drawRect(0, 0, 100, 25);
+            }
+        }
     }
 
     public Dimension getPreferredSize() {
@@ -45,12 +54,22 @@ public class TeamPanel extends JPanel {
             if (enabledColor != null) {
                 this.enabled = enabled;
                 setBackground(enabledColor);
+                label.setText("<html><font color='white'>" + teamName + "</font></html>");
             }
         } else {
             this.enabled = enabled;
             setBackground(disabledColor);
+            setSelected(false);
+            label.setText("<html><font color='gray'>" + teamName + "</font></html>");
         }
+        repaint();
+    }
 
+    public void setSelected(boolean selected) {
+        if (enabled) {
+            this.selected = selected;
+        } else
+            this.selected = false;
         repaint();
     }
 
@@ -61,6 +80,8 @@ public class TeamPanel extends JPanel {
             // If right click
             if (e.getButton() == MouseEvent.BUTTON3)
                 setEnabled(!enabled);
+            if (e.getButton() == MouseEvent.BUTTON1)
+                setSelected(!selected); // TODO Communicate with manager
         }
 
         @Override

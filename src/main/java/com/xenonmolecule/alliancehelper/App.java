@@ -1,9 +1,6 @@
 package com.xenonmolecule.alliancehelper;
 
 import com.xenonmolecule.alliancehelper.data_collection.Competition;
-import com.xenonmolecule.alliancehelper.data_collection.TeamsStatsRequest;
-import com.xenonmolecule.alliancehelper.data_collection.TotalSkillsRequest;
-import com.xenonmolecule.alliancehelper.data_formatting.Extractor;
 import com.xenonmolecule.alliancehelper.gui.AppGui;
 
 public class App 
@@ -28,6 +25,6 @@ public class App
         TotalSkillsRequest skills = new TotalSkillsRequest("RE-VRC-16-1346");
         System.out.println(skills.getFormattedSkillsList().toString());*/
         Competition sparta = new Competition("RE-VRC-16-1346");
-        System.out.println(sparta.getAllTeamData(true));
+        //System.out.println(sparta.getAllTeamData(true));
     }
 }

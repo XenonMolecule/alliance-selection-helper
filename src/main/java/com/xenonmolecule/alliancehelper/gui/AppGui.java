@@ -1,5 +1,6 @@
 package com.xenonmolecule.alliancehelper.gui;
 
+import com.xenonmolecule.alliancehelper.gui.ui.SelectionTeamContainerPanel;
 import com.xenonmolecule.alliancehelper.gui.ui.TeamContainerPanel;
 
 import javax.swing.*;
@@ -30,22 +31,22 @@ public class AppGui {
         teamPanel.setLayout(new BorderLayout());
 
         // --> Build a list panel for teams
-        ListPanel listPanel = new ListPanel("Teams List");
-        listPanel.addItem(new TeamContainerPanel("2616E","2616H","2616D", Color.RED));
-        listPanel.addItem(new TeamContainerPanel("2616C","2616J","2616P", Color.BLUE));
-        listPanel.addItem(new TeamContainerPanel("3815M","3815A","3815J", Color.RED));
+        ListPanel listPanel = new ListPanel("Team List");
+        listPanel.addItem(new TeamContainerPanel("2616E","2616H","2616D", Color.GRAY));
+        listPanel.addItem(new TeamContainerPanel("2616C","2616J","2616P", Color.GRAY));
+        listPanel.addItem(new TeamContainerPanel("3815M","3815A","3815J", Color.GRAY));
         listPanel.addItem(new TeamContainerPanel("2616M","2616K","2616L", Color.GRAY));
-        listPanel.addItem(new TeamContainerPanel("2616E","2616H","2616D", Color.RED));
-        listPanel.addItem(new TeamContainerPanel("2616C","2616J","2616P", Color.BLUE));
-        listPanel.addItem(new TeamContainerPanel("3815M","3815A","3815J", Color.RED));
+        listPanel.addItem(new TeamContainerPanel("2616E","2616H","2616D", Color.GRAY));
+        listPanel.addItem(new TeamContainerPanel("2616C","2616J","2616P", Color.GRAY));
+        listPanel.addItem(new TeamContainerPanel("3815M","3815A","3815J", Color.GRAY));
         listPanel.addItem(new TeamContainerPanel("2616M","2616K","2616L", Color.GRAY));
-        listPanel.addItem(new TeamContainerPanel("2616E","2616H","2616D", Color.RED));
-        listPanel.addItem(new TeamContainerPanel("2616C","2616J","2616P", Color.BLUE));
-        listPanel.addItem(new TeamContainerPanel("3815M","3815A","3815J", Color.RED));
+        listPanel.addItem(new TeamContainerPanel("2616E","2616H","2616D", Color.GRAY));
+        listPanel.addItem(new TeamContainerPanel("2616C","2616J","2616P", Color.GRAY));
+        listPanel.addItem(new TeamContainerPanel("3815M","3815A","3815J", Color.GRAY));
         listPanel.addItem(new TeamContainerPanel("2616M","2616K","2616L", Color.GRAY));
-        listPanel.addItem(new TeamContainerPanel("2616E","2616H","2616D", Color.RED));
-        listPanel.addItem(new TeamContainerPanel("2616C","2616J","2616P", Color.BLUE));
-        listPanel.addItem(new TeamContainerPanel("3815M","3815A","3815J", Color.RED));
+        listPanel.addItem(new TeamContainerPanel("2616E","2616H","2616D", Color.GRAY));
+        listPanel.addItem(new TeamContainerPanel("2616C","2616J","2616P", Color.GRAY));
+        listPanel.addItem(new TeamContainerPanel("3815M","3815A","3815J", Color.GRAY));
         listPanel.addItem(new TeamContainerPanel("2616M","2616K","2616L", Color.GRAY));
 
         // --> Build a lower panel with team info
@@ -58,6 +59,32 @@ public class AppGui {
         teamPanel.add(listPanel,BorderLayout.NORTH);
         teamPanel.add(infoPanel, BorderLayout.SOUTH);
         mainPanel.add(teamPanel, BorderLayout.WEST);
+
+        // Create the selectors for the autons
+        // --> Create container panels
+        JPanel selectFillerCont = new JPanel();
+        selectFillerCont.setLayout(new BorderLayout());
+        JPanel selectCont = new JPanel();
+        selectCont.setLayout(new GridBagLayout());
+        // --> Create GBC
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.weightx = 1;
+        gbc.weighty = 1;
+        // -- > Create and add red selector
+        SelectionTeamContainerPanel red = new SelectionTeamContainerPanel("Red Alliance",Color.RED);
+        selectCont.add(red,gbc);
+        // --> Create and add blue selector
+        gbc.gridy = 1;
+        SelectionTeamContainerPanel blue = new SelectionTeamContainerPanel("Blue Alliance",Color.BLUE);
+        selectCont.add(blue,gbc);
+        // --> Create empty JPanel to push up the selectors
+        JPanel filler = new JPanel();
+        filler.setMaximumSize(new Dimension(600, 200));
+        filler.setPreferredSize(new Dimension(600, 200));
+        selectFillerCont.add(filler, BorderLayout.SOUTH);
+        selectFillerCont.add(selectCont, BorderLayout.CENTER);
+        // --> Add container to main panel
+        mainPanel.add(selectFillerCont,BorderLayout.CENTER);
 
         // Build the menu
         // --> Menu creation
@@ -79,6 +106,5 @@ public class AppGui {
         frame.getContentPane().add(mainPanel);
         frame.pack();
         frame.setVisible(true);
-        System.out.println(menuBar.getHeight());
     }
 }
