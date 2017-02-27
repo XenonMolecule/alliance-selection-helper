@@ -24,15 +24,17 @@ public class Competition {
         JsonObject gameObj = new JsonObject();
         JsonObject skillsObj = new JsonObject();
         for(JsonElement team : game) {
-            gameObj.add(ext.extract(team.getAsJsonObject()));
+            ext.extract(team.getAsJsonObject())
+            gameObj.add(ext.getNameValue(), ext.getInsideData());
         }
         for(JsonElement team : skills) {
-            skillsObj.add(ext.extract(team.getAsJsonObject()));
+            ext.extract(team.getAsJsonObject());
+            skillsObj.add(ext.getNameValue());
         }
         return gameObj;
-    }*/
+    }
 
-    /*public JsonArray getAllTeamData(boolean refresh) {
+    public JsonArray getAllTeamData(boolean refresh) {
         if(!refresh && data!=null)
             return data;
         return getAllTeamData();

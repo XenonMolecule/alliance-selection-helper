@@ -5,6 +5,8 @@ import com.google.gson.JsonObject;
 public class Extractor {
 
     private String extractionFactor;
+    private String parentName = "";
+    private JsonObject parent = new JsonObject();
 
     public Extractor(String extractionFactor) {
         this.extractionFactor = extractionFactor;
@@ -15,7 +17,19 @@ public class Extractor {
         parent.remove(extractionFactor);
         JsonObject output = new JsonObject();
         output.add(parentName,parent);
+
+        this.parent = parent;
+        this.parentName = parentName;
+
         return output;
+    }
+
+    public String getNameValue() {
+        return parentName;
+    }
+
+    public JsonObject getInsideData() {
+        return parent;
     }
 
 }
