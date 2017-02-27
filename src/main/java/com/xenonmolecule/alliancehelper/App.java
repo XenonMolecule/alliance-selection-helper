@@ -2,11 +2,13 @@ package com.xenonmolecule.alliancehelper;
 
 import com.xenonmolecule.alliancehelper.data_collection.TeamsStatsRequest;
 import com.xenonmolecule.alliancehelper.data_formatting.Extractor;
+import com.xenonmolecule.alliancehelper.gui.AppGui;
 
 public class App 
 {
     public static void main( String[] args )
     {
+        new AppGui();
         /*Request test = new Request("https://api.vexdb.io/v1/get_events");
         EventsRequest events = new EventsRequest("starstruck");
         String[] eventSKUs = events.getEventSKUs();
