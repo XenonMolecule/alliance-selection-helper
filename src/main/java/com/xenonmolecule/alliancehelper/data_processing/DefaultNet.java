@@ -1,8 +1,6 @@
 package com.xenonmolecule.alliancehelper.data_processing;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
+import com.google.gson.*;
 import com.xenonmolecule.alliancehelper.data_collection.Competition;
 import com.xenonmolecule.alliancehelper.data_collection.EventsRequest;
 import org.neuroph.core.NeuralNetwork;
@@ -177,8 +175,13 @@ public class DefaultNet extends VexNet {
             JsonArray matches = comp.getMatchData();
             for(JsonElement match : matches) {
                 JsonObject matchObj = match.getAsJsonObject();
-                data.addRow(new DataSetRow(getTeamsData(teams,matchObj.get("red1").getAsString(),matchObj.get("red2").getAsString(),
-                        matchObj.get("blue1").getAsString(),matchObj.get("blue2").getAsString()), getWinnerArr(matchObj)));
+                try {
+                    data.addRow(new DataSetRow(getTeamsData(teams, matchObj.get("red1").getAsString(), matchObj.get("red2").getAsString(),
+                            matchObj.get("blue1").getAsString(), matchObj.get("blue2").getAsString()), getWinnerArr(matchObj)));
+                } catch (NullPointerException e) {
+                    // Somebody forgot to put in team data for one of these teams... >:(
+                    // Now this is a wasted match, so this catch does nothing
+                }
             }
             printDebug("Gathering Data (" + index + "/" + events.length + ") [" + getDateDiff(startTime, new Date(), TimeUnit.SECONDS) + " seconds]");
         }
