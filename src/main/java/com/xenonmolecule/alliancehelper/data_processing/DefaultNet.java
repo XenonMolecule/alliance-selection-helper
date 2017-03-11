@@ -14,11 +14,15 @@ import org.neuroph.util.TransferFunctionType;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by MichaelRyan on 3/3/17.
  */
 public class DefaultNet extends VexNet {
+
+    boolean debug = false;
+
     public DefaultNet(String location) {
         super(location);
     }
@@ -56,7 +60,9 @@ public class DefaultNet extends VexNet {
 
     @Override
     public void train(Date start, Date end) {
-        String[] events = new EventsRequest("starstruck","sku",start,end).getEventSKUs();
+        printDebug("Training");
+
+        String[] events = new EventsRequest("starstruck","vrc",start,end).getEventSKUs();
 
         // Get or construct network
         NeuralNetwork network = getNetwork();
@@ -81,6 +87,8 @@ public class DefaultNet extends VexNet {
 
     @Override
     public double test(Date start, Date end) {
+        printDebug("Testing");
+
         String[] events = new EventsRequest("starstruck","sku",start,end).getEventSKUs();
 
         // Get or construct network
@@ -160,9 +168,11 @@ public class DefaultNet extends VexNet {
     }
 
     private DataSet collectData(String[] events) {
+        printDebug("Collecting Data");
         DataSet data = new DataSet(60,2);
-        for(String event : events) {
-            Competition comp = new Competition(event);
+        for(int index = 0; index < events.length; index++) {
+            Date startTime = new Date();
+            Competition comp = new Competition(events[index]);
             JsonObject teams = comp.getSimpleTeamData(true);
             JsonArray matches = comp.getMatchData();
             for(JsonElement match : matches) {
@@ -170,7 +180,22 @@ public class DefaultNet extends VexNet {
                 data.addRow(new DataSetRow(getTeamsData(teams,matchObj.get("red1").getAsString(),matchObj.get("red2").getAsString(),
                         matchObj.get("blue1").getAsString(),matchObj.get("blue2").getAsString()), getWinnerArr(matchObj)));
             }
+            printDebug("Gathering Data (" + index + "/" + events.length + ") [" + getDateDiff(startTime, new Date(), TimeUnit.SECONDS) + " seconds]");
         }
         return data;
+    }
+
+    public void setDebug(boolean debug) {
+        this.debug = debug;
+    }
+
+    public void printDebug(String output) {
+        if(debug)
+            System.out.println("[DefaultNetwork] " + output);
+    }
+
+    private static long getDateDiff(Date date1, Date date2, TimeUnit timeUnit) {
+        long diffInMillies = date2.getTime() - date1.getTime();
+        return timeUnit.convert(diffInMillies,TimeUnit.MILLISECONDS);
     }
 }
