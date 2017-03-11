@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by MichaelRyan on 3/3/17.
@@ -167,23 +168,38 @@ public class DefaultNet extends VexNet {
 
     private DataSet collectData(String[] events) {
         printDebug("Collecting Data");
+        AtomicInteger done = new AtomicInteger(0);
+        AtomicInteger position = new AtomicInteger(0);
         DataSet data = new DataSet(60,2);
         for(int index = 0; index < events.length; index++) {
-            Date startTime = new Date();
-            Competition comp = new Competition(events[index]);
-            JsonObject teams = comp.getSimpleTeamData(true);
-            JsonArray matches = comp.getMatchData();
-            for(JsonElement match : matches) {
-                JsonObject matchObj = match.getAsJsonObject();
-                try {
-                    data.addRow(new DataSetRow(getTeamsData(teams, matchObj.get("red1").getAsString(), matchObj.get("red2").getAsString(),
-                            matchObj.get("blue1").getAsString(), matchObj.get("blue2").getAsString()), getWinnerArr(matchObj)));
-                } catch (NullPointerException e) {
-                    // Somebody forgot to put in team data for one of these teams... >:(
-                    // Now this is a wasted match, so this catch does nothing
+            Thread t = new Thread(() -> {
+                final int indet = position.getAndIncrement();
+                Date startTime = new Date();
+                Competition comp = new Competition(events[indet]);
+                JsonObject teams = comp.getSimpleTeamData(true);
+                JsonArray matches = comp.getMatchData();
+                for(JsonElement match : matches) {
+                    JsonObject matchObj = match.getAsJsonObject();
+                    try {
+                        data.addRow(new DataSetRow(getTeamsData(teams, matchObj.get("red1").getAsString(), matchObj.get("red2").getAsString(),
+                                matchObj.get("blue1").getAsString(), matchObj.get("blue2").getAsString()), getWinnerArr(matchObj)));
+                    } catch (NullPointerException ignored) {
+                        // Somebody forgot to put in team data for one of these teams... >:(
+                        // Now this is a wasted match, so this catch does nothing
+                    }
                 }
+                done.incrementAndGet();
+                printDebug("Gathering Data (" + indet + "/" + events.length + ") [" + getDateDiff(startTime, new Date(), TimeUnit.SECONDS) + " seconds]");
+            });
+            t.start();
+        }
+        while (done.get() != events.length-1) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-            printDebug("Gathering Data (" + index + "/" + events.length + ") [" + getDateDiff(startTime, new Date(), TimeUnit.SECONDS) + " seconds]");
+            System.out.println("Done: "+done.get()+"/"+(events.length-1));
         }
         return data;
     }
